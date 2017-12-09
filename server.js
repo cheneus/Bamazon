@@ -12,8 +12,8 @@ var connection = mysql.createConnection(
   user: "root",
 
   // Your password
-  password: "",
-  database: ""
+  password: "m44t4236773T$",
+  database: "bamazon"
 }
 );
 
@@ -25,8 +25,9 @@ connection.connect(function(err) {
 var items = `("ice_cream", "dairy", 3.99, 10),("chicken_meat", "poultry",1.99, 20), ("tilapia", "seafood", 4.99, 5),("salmon", "seafood", 7.99, 10), ("green_pepper", "produces", 0.99, 40), ("spinach", "produces", 0.99, 35), ("cheese", "dairy", 2.99, 8), ("milk", "dairy", 1.99, 14),("bread", "bakery", 2.99, 4), ("jack_daniels", "alcohol", 74.99, 2), ("blue_moon", "alcohol", 12.99, 6)`;
 
 var tableD =  "(item_id mediumint not null auto_increment,product_name varchar(32) not null,department_name varchar(32),price decimal(10,2) not null,stock_quantity int,PRIMARY KEY (item_id))"
-
+  exeDb.cr8Db("bamazon");
 var start = () => {
+
 connection.query(
     `select * from product`,
     (err, res) => {
@@ -48,22 +49,24 @@ connection.query(
   }, {
     name: "quantityToBuy",
     message: "How many would you like to buy??",
-    validate: validateNum
+    validate: validate.validateNum
   }])
   .then((answers) => {
     console.log(`toBuy = ${answers.toBuy}`)
     console.log(`QtoBuy = ${answers.quantityToBuy}`)
     itemQ = itemFS[itemsForSale.indexOf(answers.toBuy)]
     console.log(itemQ)
-     itemQ.stock_quantity > answers.quantityToBuy ?  console.log("SOLD"): console.log("sorry we do not have enough")
+     itemQ.stock_quantity > answers.quantityToBuy ? exeDb.updateProduct(itemQ.item_id,answers.quantityToBuy ): console.log("sorry we do not have enough")
   })
       })
 };
 
-ask()
-exeDb.cr8Db("bamazon");
-exeDb.createTable("product",tableD);
-exeDb.createProduct("product", items)
+
+// exeDb.useDb("bamazon")
+// exeDb.createTable("product",tableD);
+// exeDb.createProduct("product(product_name, department_name, price, stock_quantity)", items)
 // start();
 // forSale();
-// start()
+start()
+
+

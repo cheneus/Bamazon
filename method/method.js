@@ -80,11 +80,21 @@ var  createProduct = (table, values) => {
 }
 
 var updateProduct = (item, q) => {
-  var query = connectin.query(`update product set stock_quantity=${q} where product_name = ${item}`, (err, res) => {
+  var query = connection.query(`update product set stock_quantity=stock_quantity-${q} where item_id = ${item}`,
+   (err, res) => {
     if (err) throw (err);
     console.log(`updated ${item}`)
 
   })
+  console.log(query.sql)
+}
+
+var queryTable = (cols ,table, where) => {
+  var query =  connection.query(`select ${cols} from ${table} where ${where}`,
+    (err, res) => {
+      if (err) throw (err);
+      console.log()
+    })
   console.log(query.sql)
 }
 
