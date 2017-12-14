@@ -8,7 +8,7 @@ var connection = mysql.createConnection({
   user: "root",
 
   // Your password
-  password: "m44t4236773T$",
+  password: "",
   database: ""
 });
 
@@ -80,7 +80,7 @@ var  createProduct = (table, values) => {
 }
 
 var updateProduct = (item, q) => {
-  var query = connection.query(`update product set stock_quantity=stock_quantity-${q} where item_id = ${item}`,
+  var query = connection.query(`update product set stock_quantity=stock_quantity-? where item_id = ?`,[item, q],
    (err, res) => {
     if (err) throw (err);
     console.log(`updated ${item}`)
@@ -90,7 +90,8 @@ var updateProduct = (item, q) => {
 }
 
 var queryTable = (cols ,table, where) => {
-  var query =  connection.query(`select ${cols} from ${table} where ${where}`,
+  // var query =  connection.query(`select ${cols} from ${table} where ${where}`,
+  var query =  connection.query("select ?? from ?? where ?", [cols, table, where],
     (err, res) => {
       if (err) throw (err);
       console.log()
