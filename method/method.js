@@ -2,17 +2,12 @@ const mysql = require('mysql');
 
 var connection = mysql.createConnection({
   host: "localhost",
-  port: 3306,
-
-  // Your username
   user: "root",
-
-  // Your password
   password: "",
-  database: ""
+  database: "bamazon"
 });
 
-connection.connect(function(err) {
+connection.connect((err) => {
   if (err) throw err;
   console.log("connected as id " + connection.threadId + "\n");
 });
@@ -80,7 +75,7 @@ var  createProduct = (table, values) => {
 }
 
 var updateProduct = (item, q) => {
-  var query = connection.query(`update product set stock_quantity=stock_quantity-? where item_id = ?`,[item, q],
+  var query = connection.query(`update product set stock_quantity=stock_quantity-? where item_id = ?`,[q, item],
    (err, res) => {
     if (err) throw (err);
     console.log(`updated ${item}`)
@@ -100,10 +95,10 @@ var queryTable = (cols ,table, where) => {
 }
 
 module.exports = {
-  cr8Db,
+  // cr8Db,
   useDb,
-  dropTable,
-  createTable,
+  // dropTable,
+  // createTable,
   createProduct,
   updateProduct
 }
